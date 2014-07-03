@@ -1,0 +1,179 @@
+---
+common:
+    title: Princeton Course Catalog
+    controllerConfigs:
+        KGOUIDetailModoCatalogCourse: info.objdefs.courseDetail
+        KGOUIListItemModoCatalogArea: info.objdefs.areaListItem
+        KGOUIListItemModoCatalogCourse: info.objdefs.listItem
+    dataObjects:
+    -   ModoAcademicCourse
+    objdefs:
+        areaListItem:
+            fields:
+                title:
+                -   kgoResolveType: inherit
+                    kgoResolveProcessors:
+                    -   class: KGOStringFormatDataProcessor
+                        options:
+                            format: "%s: %s"
+                            args:
+                            -   "kgo:id"
+                            -   "kgo:title"
+        listItem:
+            fields:
+                title:
+                -   kgoResolveType: inherit
+                    kgoResolveProcessors:
+                    -   class: KGOStringFormatDataProcessor
+                        options:
+                            format: "%s: %s"
+                            args:
+                            -   "modocourse:coursenumber"
+                            -   "kgo:title"
+                subtitle: ~
+        courseDetail:
+            fields:
+                description:
+                -   kgoResolveType: inherit
+                    kgoResolveProcessors:
+                    -   class: PrincetonCourseSubtitleDataProcessor
+            regions:
+            -   name: content
+                contents:
+                -   class: KGOTabsController
+                    regions:
+                    -   name: info
+                        fields:
+                            title: Info
+                        contents:
+                        -   class: KGOHTMLController
+                            fields:
+                                html:
+                                    kgoResolveType: value
+                                    kgoResolveValue: kgo:description
+                    -   name: instructors
+                        fields:
+                            title: Instructors
+                        contents:
+                        -   class: KGOListController
+                            source:
+                            -   kgoResolveType: inherit
+                                kgoResolveProcessors:
+                                -   class: PrincetonCourseInstructorsDataProcessor
+                            options:
+                                grouped: true
+                            regions:
+                            -   name: items
+                                contents:
+                                -   class: KGOListItemController
+                                    requiresData: true
+                                    options:
+                                        grouped: true
+                                -   fields:
+                                        label: Instructor
+                                        title:
+                                        -   kgoResolveType: value
+                                            kgoResolveValue: kgoperson:fullname
+                                        url:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "%s"
+                                                    args:
+                                                    -   "kgoperson:fullname"
+                                            -   class: KGOModuleSearchURLDataProcessor
+                                                options:
+                                                    module: people
+                                    options:
+                                        accessory: people
+                    -   name: sections
+                        fields:
+                            title: Sections
+                        contents:
+                        -   class: KGOListController
+                            source:
+                            -   kgoResolveType: value
+                                kgoResolveValue: 'modocourse:classes'
+                            fields:
+                                heading:
+                                -   kgoResolveType: inherit
+                                    kgoResolveProcessors:
+                                    -   class: KGOStringFormatDataProcessor
+                                        options:
+                                            format: "Section %s"
+                                            args:
+                                            -   "kgo:title"
+                            options:
+                                grouped: true
+                            regions:
+                            -   name: items
+                                contents:
+                                -   class: KGOListItemController
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "Type: %s"
+                                                    args:
+                                                    -   "modoclass:type_name"
+                                -   class: KGOListItemController
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "Section: %s"
+                                                    args:
+                                                    -   "kgo:title"
+                                -   class: KGOListItemController
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "Status: %s"
+                                                    args:
+                                                    -   "modoclass:status"
+                                -   class: KGOListItemController
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "Enrollment: %s"
+                                                    args:
+                                                    -   "modoclass:enrollment"
+                                -   class: KGOListItemController
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "Capacity: %s"
+                                                    args:
+                                                    -   "modoclass:capacity"
+                                -   class: KGOListItemController
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOStringFormatDataProcessor
+                                                options:
+                                                    format: "Class Number: %s"
+                                                    args:
+                                                    -   "modoclass:classnumber"
+                                -   class: KGOListItemController
+                                    requiresData: true
+                                    fields:
+                                        title:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: PrincetonSectionScheduleDataProcessor
+...

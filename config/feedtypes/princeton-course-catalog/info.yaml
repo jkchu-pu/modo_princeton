@@ -1,0 +1,18 @@
+---
+title: 'Princeton Course Catalog'
+args:
+    dataModel: ModoCatalogDataModel
+    dataRetriever: PrincetonCatalogDataRetriever
+    itemtype: princeton-course-catalog
+config:
+-   class: KGOFormElementControllerSelect
+    fields:
+        label: Terms Feed
+        options:
+            kgoResolveType: method
+            kgoResolveValue: getFeedOptions
+            kgoResolveArgs:
+            -   ModoAcademicTermsDataModel
+    controller:
+        config: feeds.terms
+...

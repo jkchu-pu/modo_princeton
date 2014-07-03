@@ -1,0 +1,7 @@
+---
+title: 'Princeton Terms'
+usesAuthority: true
+args:
+    dataModel: ModoAcademicTermsDataModel
+    dataRetriever: PrincetonTermsDataRetriever
+...
