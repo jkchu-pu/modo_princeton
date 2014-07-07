@@ -1,0 +1,25 @@
+---
+common:
+    title: Princeton News
+    dataObjects:
+    -   KGONewsItem
+    controllerConfigs:
+        KGOUIListItemNews: info.objdefs.newsListItem
+        KGOUIDetail: info.objdefs.detail
+        KGOUICarouselItem: info.objdefs.carouselItem
+    objdefs:
+        newsListItem:
+            fields:
+                thumbnail:
+                    kgoResolveType: value
+                    kgoResolveValue: kgonews:thumbnail
+                    kgoResolveProcessors:
+                    -   class: KGOImageDataProcessor
+                        options:
+                            maxWidth: 100
+                            maxHeight: 100
+                            crop: true
+        detail:
+            fields:
+                description: null
+...
