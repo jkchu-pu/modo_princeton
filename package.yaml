@@ -4,5 +4,5 @@ description: Princeton University Components
 license: commercial
 version: 1.0-beta1
 require:
-    modolabs/modo_campus: '2.1.*'
+    modolabs/modo_campus: '2.*.*'
 ...
