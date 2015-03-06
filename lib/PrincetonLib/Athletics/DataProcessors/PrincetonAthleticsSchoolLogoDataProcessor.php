@@ -17,6 +17,10 @@ class PrincetonAthleticsSchoolLogoDataProcessor extends KGODataProcessor
 
         $imageURL = KGOURL::createForImageFile($opponentFile);
 
+        if (!$imageURL->getFilePath()) {
+            $imageURL = KGOURL::createForImageFile('schools/_no_logo_available.png');
+        }
+
         return $imageURL;
     }
 
