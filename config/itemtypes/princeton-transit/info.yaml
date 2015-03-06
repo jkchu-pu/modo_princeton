@@ -1,0 +1,18 @@
+---
+common:
+    title: Princeton Transit
+    controllerConfigs:
+        KGOUIListItem: info.objdefs.listitem
+    dataObjects:
+    -   ModoTransitRoute
+    objdefs:
+        listitem:
+            options:
+                thumbnailStyle: list_thumbnail_icon_small
+            fields:
+                thumbnail:
+                -   kgoResolveType: inherit
+                    kgoResolveProcessors:
+                    -   class: PrincetonTransitRouteIconDataProcessor
+                    -   class: KGOImageDataProcessor
+...

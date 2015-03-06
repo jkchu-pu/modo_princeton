@@ -1,0 +1,7 @@
+---
+common:
+    modo_transit:
+        tabs:
+            running: Active Routes
+            offline: More Routes
+...

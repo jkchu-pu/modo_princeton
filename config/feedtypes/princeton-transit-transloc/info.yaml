@@ -1,0 +1,8 @@
+---
+title: Princeton Transit - Transloc
+args:
+    dataModel: ModoTransitDataModel
+    dataRetriever: ModoTransitDataRetrieverTransloc
+    itemtype: princeton-transit
+servicetype: transit-transloc
+...
