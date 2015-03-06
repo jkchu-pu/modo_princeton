@@ -1,0 +1,70 @@
+---
+common:
+    title: Princeton Athletics Event
+    controllerConfigs:
+        KGOUIListItem: info.objdefs.listitem
+        KGOUICarouselItem: info.objdefs.carousel
+        KGOUIDetail: info.objdefs.detail
+    dataObjects:
+    -   KGOCalendarEvent
+    objdefs:
+        listitem:
+            fields:
+                thumbnail:
+                -   kgoResolveType: inherit
+                    kgoResolveProcessors:
+                    -   class: PrincetonAthleticsSchoolLogoDataProcessor
+                    -   class: KGOImageDataProcessor
+        carousel:
+            fields:
+                thumbnail:
+                -   kgoResolveType: inherit
+                    kgoResolveProcessors:
+                    -   class: PrincetonAthleticsSchoolLogoDataProcessor
+                    -   class: KGOImageDataProcessor
+        detail:
+            regions:
+            -   name: content
+                contents:
+                -   class: KGOHTMLController
+                    requiresData: true
+                    fields:
+                        heading:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: core.ui.calendar.headings.location
+                        html:
+                        -   kgoResolveType: value
+                            kgoResolveValue: kgocalendar:location
+                            kgoResolveProcessors:
+                            -   class: KGOTrimToNullDataProcessor
+                -   class: KGOHTMLController
+                    requiresData: true
+                    fields:
+                        heading:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: core.ui.calendar.headings.description
+                        html:
+                        -   kgoResolveType: value
+                            kgoResolveValue: kgo:description
+                            kgoResolveProcessors:
+                            -   class: KGOTrimToNullDataProcessor
+                -   class: KGOListController
+                    requiresData: true
+                    fields:
+                        heading:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: core.ui.calendar.headings.website
+                    options:
+                        grouped: true
+                        inset: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: value
+                                kgoResolveValue: kgocalendar:url
+                                kgoResolveProcessors:
+                                -   class: KGOTrimToNullDataProcessor
+                                -   class: KGOURLsToLinksDataProcessor
+...

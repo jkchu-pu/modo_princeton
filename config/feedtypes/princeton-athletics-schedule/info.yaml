@@ -1,0 +1,47 @@
+---
+title: Princeton Athletics Schedule
+dataObjects:
+-   KGOCalendarEvent
+args:
+    dataModel: KGOCalendarDataModel
+    dataRetriever: KGOURLDataRetriever
+    dataParser: PrincetonAthleticsScheduleDataParser
+    itemtype: princeton-athletics-event
+config:
+-   class: KGOFormElementControllerText
+    validators:
+    -   class: KGOURLValidator
+    options:
+        required: true
+    fields:
+        label: URL
+        description: The URL to this feed
+    controller:
+        upload: true
+        config: baseURL
+-   class: KGOFormElementControllerSelect
+    fields:
+        label: Initial view
+        description: Choose the view that will initially be shown to the user. It <strong>must</strong> be included in the list of available view modes below.
+        options:
+            '': Default (List)
+            list: List
+            day: Day
+            week: Week
+            month: Month
+            year: Year
+    controller:
+        config: defaultDateRangeMode
+-   class: KGOFormElementControllerCheckboxGroup
+    fields:
+        label: Available Views
+        description: Choose which views will be available for the user to select. Note that "Year" view should not be used for heavy populated calendars.
+        options:
+            day: Day
+            list: List
+            week: Week
+            month: Month
+            year: Year
+    controller:
+        config: dateRangeModes
+...
