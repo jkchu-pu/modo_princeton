@@ -1,0 +1,118 @@
+---
+common:
+    objdefs:
+        content:
+            tabs:
+            -   class: KGODetailController
+                uiClass: KGOUIDetailModulePrincetonTransit
+                source:
+                -   kgoResolveType: method
+                    kgoResolveValue: getTransitFeed
+                -   kgoResolveType: method
+                    kgoResolveValue: getRoute
+                -   kgoResolveType: method
+                    kgoResolveValue: getDirection
+                regions:
+                -   name: status
+                    options:
+                        ajaxUpdateInterval: 20
+                -   name: content
+                    contents:
+                    -   class: KGOTabsController
+                        regions:
+                        -   name: map
+                            fields:
+                                title:
+                                -   kgoResolveType: localize
+                                    kgoResolveValue: princeton_transit.tabs.map
+                            contents:
+                            -   class: KGODataController
+                                uiClass: KGOUIModulePrincetonTransitMapContainer
+                                regions:
+                                -   name: map
+                                    contents:
+                                    -   class: KGOMapController
+                                        uiClass: KGOUIMapGoogle
+                                        options:
+                                            urlCommand: stop
+                                            ajaxUpdateInterval: 5
+                        -   name: stops
+                            fields:
+                                title:
+                                -   kgoResolveType: localize
+                                    kgoResolveValue: princeton_transit.tabs.stops
+                            contents:
+                            -   class: KGOListController
+                                fields:
+                                    noItemsMessage:
+                                    -   kgoResolveType: localize
+                                        kgoResolveValue: princeton_transit.titles.noStops
+                                options:
+                                    urlCommand: stop
+                                    ajaxUpdateInterval: 20
+                                    showTopBorder: false
+                                regions:
+                                -   name: items
+                                    childDefinitions:
+                                    -   fields:
+                                            subtitle:
+                                            -   kgoResolveType: method
+                                                kgoResolveValue: getArrivalTimesForRouteDirection
+                                        fieldFormatters:
+                                            subtitle:
+                                            -   class: ModoTransitArrivalFormatter
+            splitview:
+            -   class: KGOSplitviewController
+                uiClass: KGOUISplitviewTwoColumn
+                source:
+                -   kgoResolveType: method
+                    kgoResolveValue: getTransitFeed
+                -   kgoResolveType: method
+                    kgoResolveValue: getRoute
+                -   kgoResolveType: method
+                    kgoResolveValue: getDirection
+                options:
+                    constrainedColumn: right
+                regions:
+                -   name: header
+                    contents:
+                    -   class: KGODetailController
+                        uiClass: KGOUIDetailModulePrincetonTransit
+                        regions:
+                        -   name: status
+                            options:
+                                ajaxUpdateInterval: 20
+                -   name: left
+                    contents:
+                    -   class: KGODataController
+                        uiClass: KGOUIModulePrincetonTransitMapContainer
+                        regions:
+                        -   name: map
+                            contents:
+                            -   class: KGOMapController
+                                uiClass: KGOUIMapGoogle
+                                options:
+                                    urlCommand: stop
+                                    ajaxUpdateInterval: 5
+                -   name: right
+                    contents:
+                    -   class: KGOListController
+                        fields:
+                            noItemsMessage:
+                            -   kgoResolveType: localize
+                                kgoResolveValue: princeton_transit.titles.noStops
+                        options:
+                            urlCommand: stop
+                            ajaxUpdateInterval: 20
+                            showTopBorder: false
+                        regions:
+                        -   name: items
+                            childDefinitions:
+                            -   fields:
+                                    subtitle:
+                                    -   kgoResolveType: method
+                                        kgoResolveValue: getArrivalTimesForRouteDirection
+                                fieldFormatters:
+                                    subtitle:
+                                    -   class: ModoTransitArrivalFormatter
+...

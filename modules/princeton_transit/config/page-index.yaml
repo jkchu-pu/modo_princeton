@@ -1,0 +1,277 @@
+---
+common:
+    objdefs:
+        content:
+            default:
+                tabs:
+                    class: KGOTabsController
+            runningTab:
+                feed:
+                -   class: KGOListController
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getTransitFeed
+                    -   kgoResolveType: method
+                        kgoResolveValue: getAgencies
+                    fields:
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.allRoutesOffline
+                    options:
+                        urlCommand: directions
+                        showTopBorder: false
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getRunningRoutes
+                feeds:
+                -   class: KGOListController
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getTransitFeed
+                    -   kgoResolveType: method
+                        kgoResolveValue: getAgencies
+                    fields:
+                        heading:
+                        -   kgoResolveType: method
+                            kgoResolveValue: getTitle
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.allRoutesOffline
+                    options:
+                        urlCommand: directions
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getRunningRoutes
+            offlineTab:
+                feed:
+                -   class: KGOListController
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getTransitFeed
+                    -   kgoResolveType: method
+                        kgoResolveValue: getAgencies
+                    fields:
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.allRoutesRunning
+                    options:
+                        urlCommand: directions
+                        showTopBorder: false
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getOfflineRoutes
+                feeds:
+                -   class: KGOListController
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getTransitFeed
+                    -   kgoResolveType: method
+                        kgoResolveValue: getAgencies
+                    fields:
+                        heading:
+                        -   kgoResolveType: method
+                            kgoResolveValue: getTitle
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.allRoutesRunning
+                    options:
+                        urlCommand: directions
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getOfflineRoutes
+            routesTab:
+                feed:
+                -   class: KGOListController
+                    uiClass: KGOUIListModulePrincetonTransitRoute
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getTransitFeed
+                    -   kgoResolveType: method
+                        kgoResolveValue: getAgencies
+                    fields:
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.allRoutesRunning
+                    options:
+                        urlCommand: directions
+                        showTopBorder: false
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getRoutes
+                feeds:
+                -   class: KGOListController
+                    uiClass: KGOUIListModulePrincetonTransitRoute
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getTransitFeed
+                    -   kgoResolveType: method
+                        kgoResolveValue: getAgencies
+                    fields:
+                        heading:
+                        -   kgoResolveType: method
+                            kgoResolveValue: getTitle
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.allRoutesRunning
+                    options:
+                        urlCommand: directions
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getRoutes
+            newsTab:
+                feed:
+                -   class: KGOListController
+                    uiClass: KGOUIListNews
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getNewsFeeds
+                    fields:
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.noNews
+                    options:
+                        urlCommand: announcement
+                        showTopBorder: false
+                feeds:
+                -   class: KGOListController
+                    uiClass: KGOUIListNews
+                    source:
+                    -   kgoResolveType: method
+                        kgoResolveValue: getNewsFeeds
+                    fields:
+                        heading:
+                        -   kgoResolveType: method
+                            kgoResolveValue: getTitle
+                        noItemsMessage:
+                        -   kgoResolveType: localize
+                            kgoResolveValue: princeton_transit.titles.noNews
+                    options:
+                        urlCommand: announcement
+            infoTab:
+            -   class: KGOListController
+                options:
+                    grouped: true
+                fields:
+                    heading: "System Information"
+                regions:
+                -   name: items
+                    contents:
+                    -   class: KGOListItemController
+                        fields:
+                            title: "TigerTransit/Shuttle Services"
+                            url:
+                            -   kgoResolveType: inherit
+                                kgoResolveProcessors:
+                                -   class: PrincetonTransitStaticPageURLDataProcessor
+                                    options:
+                                        module: transit
+                                        command: info
+            -   class: KGOListController
+                options:
+                    grouped: true
+                fields:
+                    heading: "System Information"
+                regions:
+                -   name: items
+                    contents:
+                    -   class: KGOListItemController
+                        fields:
+                            title: "Service Disruptions (First Transit)"
+                            subtitle: "(609-587-1070)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'tel:+6095871070'
+                    -   class: KGOListItemController
+                        fields:
+                            title: "Transportation & Parking Services"
+                            subtitle: "(609-258-3157)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'tel:+6092583157'
+                    -   class: KGOListItemController
+                        fields:
+                            title: "Transportation & Parking Services"
+                            subtitle: "website (external)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'http://www.princeton.edu/transportation/'
+                    -   class: KGOListItemController
+                        fields:
+                            title: "TigerTransit Routes and Timetables"
+                            subtitle: "website (external)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'http://www.princeton.edu/transportation/ttroutes/'
+                    -   class: KGOListItemController
+                        fields:
+                            title: "Princeton Borough Free B Shuttle"
+                            subtitle: "website (external)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'http://www.princetonboro.org/jitney.cfm'
+            -   class: KGOListController
+                options:
+                    grouped: true
+                fields:
+                    heading: "Emergency Phone Numbers"
+                regions:
+                -   name: items
+                    contents:
+                    -   class: KGOListItemController
+                        fields:
+                            title: "Public Safety (Emergency)"
+                            subtitle: "(609-258-3333)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'tel:+6092583333'
+                    -   class: KGOListItemController
+                        fields:
+                            title: "Public Safety (Non-Emergency)"
+                            subtitle: "(609-258-1000)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'tel:+6092581000'
+                    -   class: KGOListItemController
+                        fields:
+                            title: "University Health Services"
+                            subtitle: "(609-258-3141)"
+                            url:
+                                kgoDeflatedClass: KGOURL
+                                kgoDeflatedData: 'tel:+6092583141'
+            mapTab:
+            -   class: KGODataController
+                uiClass: KGOUIMarginWrapper
+                regions:
+                -   name: items
+                    contents:
+                    -   class: KGOImageController
+                        fields:
+                            url:
+                            -   kgoResolveType: inherit
+                                kgoResolveProcessors:
+                                -   class: PrincetonTransitMapImageURLDataProcessor
+...

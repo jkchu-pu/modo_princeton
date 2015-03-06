@@ -1,0 +1,16 @@
+---
+common:
+    objdefs:
+        content:
+            default:
+            -   class: KGODetailPaginationController
+                uiClass: KGOUIDetailPaginationNews
+                source:
+                -   kgoResolveType: method
+                    kgoResolveValue: getNewsFeed
+                namedChildDefinitions:
+                    detail:
+                        class: KGODetailController
+                        options:
+                            bookmarkable: false
+...

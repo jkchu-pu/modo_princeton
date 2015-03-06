@@ -1,0 +1,30 @@
+.kgoui_list_item_module_princeton_transit_route {
+    .kgoui_list_item_action,
+    .kgoui_list_item_content_wrapper {
+        .kgo_route_running&,
+        .kgo_route_offline& {
+            padding-left: 25px;
+            background-position: 8px 10px;
+            background-repeat: no-repeat;
+
+            @include media-hidef {
+                background-size: 22px 22px;
+            }
+        }
+
+        .kgo_route_running& {
+            background-image: url(kgo_image('status-open.png'));
+
+            @include media-hidef {
+                background-image: url(kgo_image_2x('status-open.png'));
+            }
+        }
+        .kgo_route_offline& {
+            background-image: url(kgo_image('status-closed.png'));
+
+            @include media-hidef {
+                background-image: url(kgo_image_2x('status-closed.png'));
+            }
+        }
+    }
+}

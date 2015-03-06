@@ -1,0 +1,17 @@
+.kgoui_module_princeton_transit_map_container {
+    padding: kgo_theme("standard_padding") / 2;
+
+    .kgoui_module_princeton_transit_map_container_map {
+        border: solid 1px kgo_theme("focal_border_color");
+        position: relative;
+        height: 100%;
+    }
+
+    .kgoui_splitview & {
+        padding: 0;
+
+        .kgoui_module_princeton_transit_map_container_map {
+            border: none;
+        }
+    }
+}

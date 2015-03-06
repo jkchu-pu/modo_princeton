@@ -1,0 +1,19 @@
+---
+common:
+    objdefs:
+        content:
+            default:
+            -   class: KGOListController
+                requiresData: true
+                source:
+                -   kgoResolveType: method
+                    kgoResolveValue: getTransitFeed
+                -   kgoResolveType: method
+                    kgoResolveValue: getRoute
+                fields:
+                    heading:
+                    -   kgoResolveType: localize
+                        kgoResolveValue: princeton_transit.headings.chooseDirection
+                options:
+                    urlCommand: route
+...

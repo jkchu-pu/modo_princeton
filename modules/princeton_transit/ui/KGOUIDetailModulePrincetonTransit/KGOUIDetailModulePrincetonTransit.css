@@ -1,0 +1,19 @@
+.kgoui_detail_module_princeton_transit {
+    padding-bottom: 0;
+
+    .kgoui_detail_module_princeton_transit_service_image {
+        margin: kgo_theme("standard_padding");
+        float: right;
+    }
+
+    /* Generic styles for inset content */
+    .kgo_inset {
+        margin-left: kgo_theme("standard_padding") !important;
+        margin-right: kgo_theme("standard_padding") !important;
+        max-width: none !important;
+    }
+
+    .kgoui_detail_module_princeton_transit_content {
+        clear: both;
+    }
+}

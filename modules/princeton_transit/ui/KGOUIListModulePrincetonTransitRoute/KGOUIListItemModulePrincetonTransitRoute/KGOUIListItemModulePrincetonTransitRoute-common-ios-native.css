@@ -1,0 +1,10 @@
+.kgoui_list_item_module_princeton_transit_route {
+    .kgoui_list_item_action,
+    .kgoui_list_item_content_wrapper {
+        .kgo_route_running&,
+        .kgo_route_offline& {
+            padding-left: 42px;
+            background-position: (kgo_theme("standard_padding") * 1.5) 9px;
+        }
+    }
+}

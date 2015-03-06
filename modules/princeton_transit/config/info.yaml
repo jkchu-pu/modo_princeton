@@ -1,0 +1,31 @@
+---
+title: Transit Module
+icon: transit
+vendor: modolabs
+dataSourceModels:
+-   PrincetonTransitDataModel
+-   KGONewsDataModel
+edit:
+    allowSettingOfIndexPage: false
+    allowContentPages: true
+    allowWrapperContentOnPages:
+        index:
+            header: true
+            footer: true
+        directions:
+            header: true
+            footer: true
+config:
+-   class: KGOFormElementControllerCheckbox
+    fields:
+        label: Single Routes Tab
+        description: Merge the Running and Offline tabs on the index page into a single Routes tab with icons showing which routes are running.  Does not affect the text pagetype.
+    controller:
+        config: module.options.mergedRoutesTab
+-   class: KGOFormElementControllerCheckbox
+    fields:
+        label: Prefetch arrival times
+        description: Fetch stop arrival time information every minute with cron.  May improve route page load times with some transit providers (e.g. NextBus, DoubleMap).
+    controller:
+        config: module.options.prefetchArrivalTimes
+...

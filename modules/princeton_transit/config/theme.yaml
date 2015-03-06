@@ -1,0 +1,8 @@
+---
+common:
+    styles:
+        kgoui_image:
+            detail_service_icon:
+                width: 40px
+                height: 40px
+...

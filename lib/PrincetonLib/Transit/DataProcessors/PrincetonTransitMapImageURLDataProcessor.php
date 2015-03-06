@@ -9,22 +9,13 @@
  *
  */
 
-class PrincetonTransitRouteIconDataProcessor extends KGODataProcessor
+class PrincetonTransitMapImageURLDataProcessor extends KGODataProcessor
 {
     protected function processValue($value, $object = null) {
-
-        if (!($object instanceof ModoTransitRoute)) {
-            return null;
-        }
-
-        $routeId = $object->getId();
-
-        $imageURL = KGOURL::createForImageFile(sprintf("transit/transloc__%s.png", $routeId));
-
-        return $imageURL;
+        return KGOURL::createForImageFile('transit/RouteMap.jpg');
     }
 
-    protected function canProcessValue($value, $object = null){
+    protected function canProcessValue($value, $object = null) {
         return true;
     }
 }

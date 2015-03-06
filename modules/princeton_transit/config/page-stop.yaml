@@ -1,0 +1,141 @@
+---
+common:
+    objdefs:
+        content:
+            tabs:
+            -   class: KGODetailController
+                uiClass: KGOUIDetailModulePrincetonTransit
+                source:
+                -   kgoResolveType: method
+                    kgoResolveValue: getTransitFeed
+                -   kgoResolveType: method
+                    kgoResolveValue: getRouteDirectionStop
+                regions:
+                -   name: content
+                    contents:
+                    -   class: KGODataController
+                        uiClass: KGOUIModulePrincetonTransitMapContainer
+                        options:
+                            height: 250
+                        regions:
+                        -   name: map
+                            contents:
+                            -   class: KGOMapController
+                                uiClass: KGOUIMapGoogle
+                                options:
+                                    urlCommand: null
+            -   class: KGOListController
+                requiresData: true
+                fields:
+                    heading:
+                    -   kgoResolveType: localize
+                        kgoResolveValue: princeton_transit.headings.stopServicedCurrent
+                options:
+                    grouped: true
+                    urlCommand: route
+                    ajaxUpdateInterval: 10
+                regions:
+                -   name: items
+                    contents:
+                    -   source:
+                        -   kgoResolveType: method
+                            kgoResolveValue: getTransitFeed
+                        -   kgoResolveType: method
+                            kgoResolveValue: getRouteDirectionStop
+                        -   kgoResolveType: method
+                            kgoResolveValue: getRunningRouteDirections
+                        fields:
+                            subtitle:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getArrivalTimesForStop
+                        fieldFormatters:
+                            subtitle:
+                            -   class: ModoTransitArrivalFormatter
+            -   class: KGOListController
+                requiresData: true
+                fields:
+                    heading:
+                    -   kgoResolveType: localize
+                        kgoResolveValue: princeton_transit.headings.stopServicedOther
+                options:
+                    grouped: true
+                    urlCommand: route
+                    ajaxUpdateInterval: 10
+                regions:
+                -   name: items
+                    contents:
+                    -   source:
+                        -   kgoResolveType: method
+                            kgoResolveValue: getTransitFeed
+                        -   kgoResolveType: method
+                            kgoResolveValue: getRouteDirectionStop
+                        -   kgoResolveType: method
+                            kgoResolveValue: getOfflineRouteDirections
+            splitview:
+            -   class: KGOSplitviewController
+                uiClass: KGOUISplitviewTwoColumn
+                source:
+                -   kgoResolveType: method
+                    kgoResolveValue: getTransitFeed
+                -   kgoResolveType: method
+                    kgoResolveValue: getRouteDirectionStop
+                options:
+                    constrainedColumn: right
+                regions:
+                -   name: header
+                    contents:
+                    -   class: KGODetailController
+                        uiClass: KGOUIDetailModulePrincetonTransit
+                -   name: left
+                    contents:
+                    -   class: KGODataController
+                        uiClass: KGOUIModulePrincetonTransitMapContainer
+                        regions:
+                        -   name: map
+                            contents:
+                            -   class: KGOMapController
+                                uiClass: KGOUIMapGoogle
+                                options:
+                                    urlCommand: null
+                -   name: right
+                    contents:
+                    -   class: KGOListController
+                        requiresData: true
+                        fields:
+                            heading:
+                            -   kgoResolveType: localize
+                                kgoResolveValue: princeton_transit.headings.stopServicedCurrent
+                        options:
+                            grouped: true
+                            urlCommand: route
+                            ajaxUpdateInterval: 10
+                        regions:
+                        -   name: items
+                            contents:
+                            -   source:
+                                -   kgoResolveType: method
+                                    kgoResolveValue: getRunningRouteDirections
+                                fields:
+                                    subtitle:
+                                    -   kgoResolveType: method
+                                        kgoResolveValue: getArrivalTimesForStop
+                                fieldFormatters:
+                                    subtitle:
+                                    -   class: ModoTransitArrivalFormatter
+                    -   class: KGOListController
+                        requiresData: true
+                        fields:
+                            heading:
+                            -   kgoResolveType: localize
+                                kgoResolveValue: princeton_transit.headings.stopServicedOther
+                        options:
+                            grouped: true
+                            urlCommand: route
+                            ajaxUpdateInterval: 10
+                        regions:
+                        -   name: items
+                            contents:
+                            -   source:
+                                -   kgoResolveType: method
+                                    kgoResolveValue: getOfflineRouteDirections
+...

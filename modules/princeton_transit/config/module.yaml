@@ -1,0 +1,41 @@
+---
+common:
+    pages:
+        index:
+            pullToRefresh: true
+            objdefs:
+                content: page-index.objdefs.content.default
+        directions:
+            pageTitle: Pick a Direction
+            objdefs:
+                content: page-directions.objdefs.content.default
+        route:
+            pageTitle: Route Info
+            pullToRefresh: true
+            objdefs:
+                content: page-route.objdefs.content.tabs
+        stop:
+            pageTitle: Stop Info
+            pullToRefresh: true
+            objdefs:
+                content: page-stop.objdefs.content.tabs
+        announcement:
+            pageTitle: Announcement
+            objdefs:
+                content: page-announcement.objdefs.content.default
+        info:
+            pageTitle: Info
+            objdefs:
+                content: page-info.objdefs.content.default
+    options:
+        prefetchArrivalTimes: false
+        mergedRoutesTab: false
+large:
+    pages:
+        route:
+            objdefs:
+                content: page-route.objdefs.content.splitview
+        stop:
+            objdefs:
+                content: page-stop.objdefs.content.splitview
+...

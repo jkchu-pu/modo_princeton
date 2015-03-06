@@ -1,0 +1,36 @@
+---
+common:
+    modo_transit:
+        titles:
+            arrivalTimeMinutes: Arriving in %s mins
+    princeton_transit:
+        errors:
+            feedNotConfigured: Transit feed not configured
+            noSuchRoute: Route %s does not exist
+            noSuchDirection: Route %s does not have a direction %s
+            noSuchStop: Stop %s does not exist
+        tabs:
+            running: Active Routes
+            offline: More Routes
+            routes: Routes
+            map: Map
+            stops: Stops
+            news: News
+            info: Info
+            map: Map
+        titles:
+            arrivalTimeMinutes: Arriving in %s mins
+            allRoutesRunning: All routes are currently running
+            allRoutesOffline: All routes are currently offline
+            noStops: This route does not have any stops
+            noRoutes: This agency does not have any routes
+            noNews: No current service announcements
+            routeOffline: Route is currently offline
+        subtitles:
+            screenReaderRouteIsRunning: (running)
+            screenReaderRouteIsOffline: (offline)
+        headings:
+            chooseDirection: Choose a direction
+            stopServicedCurrent: 'Currently serviced by:'
+            stopServicedOther: 'Serviced at other times by:'
+...

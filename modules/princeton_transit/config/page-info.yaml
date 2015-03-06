@@ -1,0 +1,13 @@
+---
+common:
+    objdefs:
+        content:
+            default:
+            -   class: KGOHTMLController
+                options:
+                    focal: true
+                    inset: true
+                fields:
+                    html: '<h1>TigerTransit/Shuttle Services</h1>Princeton University’s TigerTransit transportation system operates on a fixed route schedule, providing safe, convenient and reliable transportation throughout the Princeton campus and surrounding community.<h1>Stops</h1>The TigerTransit transportation system offers stops at academic and administrative buildings; faculty, staff, graduate and undergraduate student housing; Nassau Street; and the Forrestal Campus and Princeton Plasma Physics Lab.<h1>TigerTransit Fleet</h1>The TigerTransit fleet is comprised of new 30-foot, low-floor, fully accessible buses that run on B20 biodiesel fuel. The buses are clearly identified as Princeton University TigerTransit buses with the following specifications and features:<ul><li><strong>Passenger Capacity:</strong> 33 seated, 15 standing</li><li><img src="http://m.princeton.edu/modules/transit/images/handicapped.png" alt="accessibility symbol" style="float:right"><strong>Wheelchair Capacity:</strong> 2</li><li><strong>Accessibility Features:</strong> Flip-out ramp; Low floor kneeling</li><li><strong>Bicycle Rack:</strong> Front load rack, holds up to 2 bikes</li><li><strong>Tracking:</strong> Web-based GPS real-time tracking</li></ul><h1>Tracking</h1>TigerTransit buses are equipped with web-based Global Positioning Systems (GPS) that can track buses in real-time (TigerTracker). Riders are be able to track the location of any TigerTransit bus on any route online.<h1>Other Services</h1>Other TigerTransit services include stops with shelters, connections to NJ Transit and Princeton Borough FreeB shuttle, service to local shopping centers, an on-demand service, and extended hours. Multi-line TigerTransit stops provide transfers from one line to another.'
+
+...

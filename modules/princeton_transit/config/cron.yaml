@@ -1,0 +1,12 @@
+---
+tasks:
+    - id: princeton_transit_fetcharrivaltimes
+      title: Fetch Transit Arrival Times
+      schedule:
+        minute: '*'
+        hour: '*'
+        dayOfMonth: '*'
+        month: '*'
+        dayOfWeek: '*'
+      command: fetcharrivaltimes
+...

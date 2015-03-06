@@ -1,0 +1,7 @@
+@media only screen and (min-width: 30em) {
+    .kgoui_detail_module_princeton_transit {
+        .kgoui_detail_module_princeton_transit_service_image {
+            margin-top: kgo_theme("standard_padding") * 2;
+        }
+    }
+}
