@@ -1,0 +1,24 @@
+---
+title: Princeton Dining Locations
+dataObjects:
+-   KGOLocation
+args:
+    dataModel: KGOLocationsDataModel
+    dataRetriever: KGOURLDataRetriever
+    dataParser: PrincetonLocationsDataParser
+    itemtype: location-with-events
+    eventsFeed:
+        feedtype: ics
+config:
+-   class: KGOFormElementControllerText
+    validators:
+    -   class: KGOURLValidator
+    options:
+        required: true
+    fields:
+        label: URL
+        description: The URL to this feed
+    controller:
+        upload: true
+        config: baseURL
+...
