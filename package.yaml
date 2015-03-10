@@ -2,7 +2,7 @@
 id: modolabs/modo_princeton_components
 description: Princeton University Components
 license: commercial
-version: 1.0-beta1
+version: 2.0.0
 require:
-    modolabs/modo_campus: '2.*.*'
+    kurogo/kurogo-core: '2.3.*'
 ...
