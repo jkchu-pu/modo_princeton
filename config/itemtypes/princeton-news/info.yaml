@@ -4,11 +4,10 @@ common:
     dataObjects:
     -   KGONewsItem
     controllerConfigs:
-        KGOUIListItemNews: info.objdefs.newsListItem
+        KGOUIListItemNews: info.objdefs.listitem
         KGOUIDetail: info.objdefs.detail
-        KGOUICarouselItem: info.objdefs.carouselItem
     objdefs:
-        newsListItem:
+        listitem:
             fields:
                 thumbnail:
                     kgoResolveType: value
@@ -22,4 +21,8 @@ common:
         detail:
             fields:
                 description: null
+                thumbnail: null
+                hero:
+                -   kgoResolveType: value
+                    kgoResolveValue: kgonews:thumbnail
 ...

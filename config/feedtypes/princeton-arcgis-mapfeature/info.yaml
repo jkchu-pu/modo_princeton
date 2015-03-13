@@ -1,0 +1,76 @@
+---
+title: Princeton ArcGIS Feature layer Service
+dataObjects:
+-   KGOMapPlacemark
+servicetype: modo-arcgis
+args:
+    dataModel: KGOMapDataModel
+    dataRetriever: ModoArcGISDataRetriever
+    dataParser: PrincetonArcGISDataParser
+    itemtype: placemark
+config:
+-   class: KGOFormElementControllerText
+    options:
+        required: true
+    fields:
+        label: Latitude
+        description: The latitude to the center of the map
+    controller:
+        config: latitude
+-   class: KGOFormElementControllerText
+    options:
+        required: true
+    fields:
+        label: Longitude
+        description: The longitude to the center of the map
+    controller:
+        config: longitude
+-   class: KGOFormElementControllerText
+    fields:
+        label: Parent ID
+        description: ID of parent layer
+    controller:
+        config: parentId
+-   class: KGOFormElementControllerText
+    fields:
+        label: Geometry Parent ID
+        description: 'ID of parent layer, for geometry'
+    controller:
+        config: geometryParentId
+-   class: KGOFormElementControllerText
+    fields:
+        label: Nearby Threshold
+        description: Maximum distance in meters to show nearby items
+    controller:
+        config: nearbyThreshold
+-   class: KGOFormElementControllerText
+    fields:
+        label: Use Extent Geometry
+        description: Set to true for feeds that don''t return placemarks unless this is set
+    controller:
+        config: useExtentGeometry
+-   class: KGOFormElementControllerText
+    fields:
+        label: Title Field
+        description: Name of field to use as title
+    controller:
+        config: titleField
+-   class: KGOFormElementControllerText
+    fields:
+        label: Subtitle field
+        description: Name of field to use as subtitle
+    controller:
+        config: subtitleField
+-   class: KGOFormElementControllerText
+    fields:
+        label: Photo Field
+        description: Name of field that contains photo URL
+    controller:
+        config: photoField
+-   class: KGOFormElementControllerText
+    fields:
+        label: Sort Field
+        description: Name of column to sort results on
+    controller:
+        config: sortField
+...
