@@ -6,9 +6,10 @@ args:
     dataModel: KGOLocationsDataModel
     dataRetriever: KGOURLDataRetriever
     dataParser: PrincetonLocationsDataParser
-    itemtype: location-with-events
+    itemtype: princeton-dining-location
     eventsFeed:
         feedtype: ics
+        itemtype: princeton-dining-event
 config:
 -   class: KGOFormElementControllerText
     validators:

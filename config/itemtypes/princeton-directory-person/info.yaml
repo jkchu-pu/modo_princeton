@@ -1,0 +1,101 @@
+---
+common:
+    title: Princeton Directory Person
+    dataObjects:
+    -   KGOPerson
+    controllerConfigs:
+        KGOUIDetail: info.objdefs.detail
+        KGOUIListItemPeople: info.objdefs.listItem
+    objdefs:
+        listItem:
+            fields:
+                title:
+                    kgoResolveType: value
+                    kgoResolveValue: ldap:firstlast
+        detail:
+            fields:
+                title:
+                    kgoResolveType: value
+                    kgoResolveValue: ldap:firstlast
+                subtitle:
+                    kgoResolveType: value
+                    kgoResolveValue: ldap:title
+            fieldFormatters:
+                subtitle:
+                    class: KGOArrayJoinFormatter
+                    options:
+                        separator: ", "
+            regions:
+            -   name: content
+                contents:
+                -   class: KGOListController
+                    requiresData: true
+                    options:
+                        grouped: true
+                        inset: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   source:
+                                kgoResolveType: value
+                                kgoResolveValue: kgoperson:email
+                                kgoResolveProcessors:
+                                -   class: KGOEmailAddressesToLinksDataProcessor
+                            fields:
+                                label: email
+                            options:
+                                accessory: email
+                -   class: KGOListController
+                    requiresData: true
+                    options:
+                        grouped: true
+                        inset: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   source:
+                                kgoResolveType: value
+                                kgoResolveValue: kgoperson:phone
+                                kgoResolveProcessors:
+                                -   class: KGOPhoneNumbersToLinksDataProcessor
+                            fields:
+                                label: phone
+                            options:
+                                accessory: phone
+                        -   source:
+                                kgoResolveType: value
+                                kgoResolveValue: ldap:homephone
+                                kgoResolveProcessors:
+                                -   class: KGOPhoneNumbersToLinksDataProcessor
+                            fields:
+                                label: home
+                            options:
+                                accessory: phone
+                        -   source:
+                                kgoResolveType: value
+                                kgoResolveValue: ldap:facsimiletelephonenumber
+                                kgoResolveProcessors:
+                                -   class: KGOPhoneNumbersToLinksDataProcessor
+                            fields:
+                                label: fax
+                            options:
+                                accessory: phone
+                -   class: KGOListController
+                    requiresData: true
+                    options:
+                        grouped: true
+                        inset: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   fields:
+                                label: unit
+                                title:
+                                    kgoResolveType: value
+                                    kgoResolveValue: ldap:ou
+                            fieldFormatters:
+                                title:
+                                -   class: KGOArrayJoinFormatter
+                                    options:
+                                        separator: ", "
+...

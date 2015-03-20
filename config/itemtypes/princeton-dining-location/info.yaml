@@ -1,0 +1,62 @@
+---
+common:
+    title: Princeton Dining Location
+    dataObjects:
+    -   KGOLocation
+    controllerConfigs:
+        KGOUIDetail: info.objdefs.detail
+    objdefs:
+        detail:
+            regions:
+            -   name: content
+                contents:
+                -   class: KGOListController
+                    requiresData: true
+                    options:
+                        grouped: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            options:
+                                accessory: map
+                            source:
+                            -   kgoResolveType: value
+                                kgoResolveValue: kgolocationxml:building
+                                kgoResolveProcessors:
+                                -   class: KGOArrayValueDataProcessor
+                                    options:
+                                        key: name
+                                -   class: KGOTrimToNullDataProcessor
+                                -   class: KGOModuleSearchLinksDataProcessor
+                                    options:
+                                        module: map
+                                        command: ''
+                                        args:
+                                            recenter: true
+                                            _tab: search
+                        -   class: KGOListItemController
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getAmenities
+                            fields:
+                                title:
+                                -   kgoResolveType: value
+                                    kgoResolveValue: kgo:title
+                -   class: KGOCalendarEventsController
+                    options:
+                        dateRangeModes:
+                        -   day
+                        showStatusIcons: true
+                        urlCommand: event
+                    namedChildDefinitions:
+                        splitview:
+                            class: KGOSplitviewController
+                            options:
+                                fillscreen: false
+                            namedChildDefinitions:
+                                detail:
+                                    class: KGODetailController
+                                    options:
+                                        bookmarkable: false
+...
