@@ -5,8 +5,7 @@ dataObjects:
 servicetype: modo-arcgis
 args:
     dataModel: KGOMapDataModel
-    dataRetriever: ModoArcGISDataRetriever
-    dataParser: PrincetonArcGISDataParser
+    dataRetriever: PrincetonArcGISDataRetriever
     itemtype: placemark
 config:
 -   class: KGOFormElementControllerText
