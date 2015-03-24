@@ -1,9 +1,8 @@
 ---
-title: 'Princeton Course Catalog'
+title: Princeton Catalog Federated Search Feed
 args:
-    dataModel: ModoCatalogDataModel
-    dataRetriever: PrincetonCatalogDataRetriever
-    itemtype: princeton-course-catalog
+    dataModel: PrincetonCatalogFederatedSearchDataModel
+    dataRetriever: PrincetonCatalogFederatedSearchDataRetriever
 config:
 -   class: KGOFormElementControllerText
     validators:

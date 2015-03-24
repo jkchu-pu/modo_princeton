@@ -1,7 +1,7 @@
 <?php
 
 
-class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements ModoCatalogDataRetriever {
+class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements KGOSearchDataRetriever, ModoCatalogDataRetriever {
 
     protected $areasParser;
     protected $areasURL;
@@ -17,14 +17,13 @@ class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements ModoC
     //     //$this->setBaseURL($this->$urlVar);
     // }
 
-    public function searchCourses($searchTerms, $options = array()) {
-        kgo_debug('', true, true);
-        if (strlen($searchTerms)<self::MINIMUM_SEARCH_LENGTH) {
+    public function searchCourses($searchTerms, $options = array(), &$response=null) {
+        if (strlen($searchTerms) < self::MINIMUM_SEARCH_LENGTH) {
             return array();
         }
         $items = array();
 
-        if(isset($options['area'])) {
+        if (isset($options['area'])) {
             if (!$area = $this->getCatalogArea($options['area'], $options)) {
                 return $items;
             }
@@ -33,20 +32,22 @@ class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements ModoC
             $options['search'] = trim($searchTerms);
         }
 
-        $courses = $this->getCourses($options);
+        $courses = $this->getCourses($options, $response);
 
-        $filters['search'] = trim($searchTerms);
-        foreach($courses as $course) {
-            if($course->filterItem($filters)) {
+        $filters = array(
+            'search' => trim($searchTerms),
+        );
+
+        foreach ($courses as $course) {
+            if ($course->filterItem($filters)) {
                 $items[] = $course;
             }
         }
         return $items;
     }
 
-    public function getCourses($options = array()) {
+    public function getCourses($options = array(), &$response=null) {
         $areaId = $this->getOption('areaId');
-        $term = $this->getOption('selectedTerm');
         $term = $this->getOption('term')->getAttribute('kgo:id');
         //$this->setMode('courses');
         if (isset($areaId)) {
@@ -60,14 +61,15 @@ class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements ModoC
         }
 
         if (isset($options['search'])) {
-            kgo_debug('', true, true);
             $this->setOption('search', $options['search']);
             $this->addParameter('search', $options['search']);
+            $this->addParameter('subject', null);
         }
 
-        $data = $this->getData();
+        $data = $this->getData($response);
+        $data = trim(preg_replace("/^Notice([^<]*)$/sm", '', $data));
         $parser = PrincetonCoursesDataParser::factory("PrincetonCoursesDataParser", $this->initArgs);
-        $parser->setOption('selectedTerm',$this->getOption('term'));
+        $parser->setOption('selectedTerm', $this->getOption('term'));
         $courses = $parser->parseData($data);
         return $courses;
     }
@@ -140,4 +142,10 @@ class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements ModoC
         $this->setStandardFilters();
     }
 
+    public function search($searchTerms, &$response = null) {
+        $termFeed = KGOSite::currentSite()->getFeed('terms');
+        $this->setOption('term', $termFeed->getCurrentTerm());
+        $courses = $this->searchCourses($searchTerms, array(), $response);
+        return $courses;
+    }
 }
