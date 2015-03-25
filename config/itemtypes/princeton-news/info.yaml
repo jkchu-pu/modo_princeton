@@ -22,7 +22,5 @@ common:
             fields:
                 description: null
                 thumbnail: null
-                hero:
-                -   kgoResolveType: value
-                    kgoResolveValue: kgonews:thumbnail
+                hero: null
 ...
