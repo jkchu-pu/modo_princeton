@@ -31,7 +31,6 @@ class PrincetonAthleticsScheduleDataParser extends KGOSimpleXMLDataParser
             $event->setAttribute(KGOCalendarEvent::END_ATTRIBUTE, $eventDate);
             $event->setAttribute(KGOCalendarEvent::OCCURRENCE_DATE_ATTRIBUTE, $eventDate);
         }
-
         return $events;
     }
 
