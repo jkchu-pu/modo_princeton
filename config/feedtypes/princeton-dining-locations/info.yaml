@@ -1,15 +1,17 @@
 ---
-title: Princeton Dining Locations
+title: Princeton Dining Locations with Menus
 dataObjects:
 -   KGOLocation
 args:
     dataModel: KGOLocationsDataModel
     dataRetriever: KGOURLDataRetriever
-    dataParser: PrincetonLocationsDataParser
+    dataParser: KGOXMLLocationsDataParser
     itemtype: princeton-dining-location
     eventsFeed:
         feedtype: ics
-        itemtype: princeton-dining-event
+        itemtype: princeton-event-with-menu
+        dataRetriever: KGODiningDataRetriever
+        dataParser: KGODiningICSDataParser
 config:
 -   class: KGOFormElementControllerText
     validators:
@@ -17,9 +19,20 @@ config:
     options:
         required: true
     fields:
-        label: URL
-        description: The URL to this feed
+        label: Locations Feed URL
+        description: Locations Feed URL
     controller:
         upload: true
         config: baseURL
+-   class: KGOFormElementControllerText
+    validators:
+    -   class: KGOURLValidator
+    options:
+        required: true
+    fields:
+        label: Menu JSON URL
+        description: Menu JSON URL
+    controller:
+        upload: true
+        config: menuURL
 ...

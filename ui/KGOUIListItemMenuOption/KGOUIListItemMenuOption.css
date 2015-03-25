@@ -1,0 +1,67 @@
+.meal-note {
+    color: #999999;
+    font-size: .8em;
+    font-style: italic;
+}
+
+.meal-section-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.nav.menu .smallprint {
+    color: #ffaa55;
+    font-style: italic;
+    font-size: .8em;
+}
+
+.entree-content {
+    display: inline-block;
+    margin: .2em 0 .2em .6em;
+    color: #eeeeee;
+    font-size: .7em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.vegan {
+    color: #00aa00;
+}
+
+.vegetarian {
+    color: #aaff66;
+}
+
+.pork {
+    color: #ffaaaa;
+}
+
+.conscious {
+    color: #aaaaff;
+}
+
+.entree-property {
+    display: inline-block;
+    margin: .2em 0 .2em .6em;
+    vertical-align: middle;
+}
+
+.entree-legend-content {
+    font-size: .8em;
+    margin-left: .5em;
+}
+
+.nav.entree-legend-content li,
+.nav.entree-legend-content li.icon {
+    min-height: 20px;
+    padding: 3px 20px;
+    border: none;
+}
+
+
+.nav.entree-legend-content li.icon img {
+    width: auto;
+    height: auto;
+    position: static;
+}

@@ -1,6 +1,6 @@
 ---
 common:
-    title: Princeton Dining Event
+    title: Princeton Dining Event with Menu
     controllerConfigs:
         KGOUIDetail: info.objdefs.detail
     dataObjects:
@@ -32,6 +32,44 @@ common:
                             kgoResolveValue: kgo:description
                             kgoResolveProcessors:
                             -   class: KGOTrimToNullDataProcessor
+                            -   class: KGOHTMLEncodeDataProcessor
+                -   class: KGOListController
+                    requiresData: false
+                    fields:
+                        heading: Menu
+                    options:
+                        grouped: true
+                        inset: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
+                            uiClass: KGOUIListItemMenuOption
+                            source:
+                            -   kgoResolveType: method
+                                kgoResolveValue: getMealItems
+                            fieldFormatters:
+                                title: []
+                            fields:
+                                title:
+                                -   kgoResolveType: inherit
+                                    kgoResolveProcessors:
+                                    -   class: PrincetonAppendNutritionIconsDataProcessor
+                                url:
+                                -   kgoResolveType: value
+                                    kgoResolveValue: menu:link
+                                    kgoResolveProcessors:
+                                    -   class: KGOURLDataProcessor
+                -   class: KGOHTMLController
+                    options:
+                        focal: true
+                        inset: true
+                    fields:
+                        heading: Legend
+                        html:
+                        -   kgoResolveType: inherit
+                            kgoResolveProcessors:
+                            -   class: PrincetonNutritionLegendDataProcessor
                 -   class: KGOListController
                     requiresData: true
                     fields:
