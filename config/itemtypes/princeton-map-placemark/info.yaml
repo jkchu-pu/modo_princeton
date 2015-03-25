@@ -1,0 +1,68 @@
+---
+common:
+    title: Princeton Map Placemark
+    dataObjects:
+    -   KGOMapPlacemark
+    controllerConfigs:
+        KGOUIDetail: info.objdefs.detail
+    objdefs:
+        detail:
+            requiresData: true
+            fields:
+                subtitle:
+                    kgoResolveType: value
+                    kgoResolveValue: kgo:description
+            options:
+                mapCommand: map
+            regions:
+            -   name: tabs
+                contents:
+                -   class: KGOTabsController
+                    regions:
+                    -   name: info
+                        fields:
+                            title: Info
+                        contents:
+                        -   class: KGOHTMLController
+                            requiresData: true
+                            fields:
+                                html:
+                                    kgoResolveType: value
+                                    kgoResolveValue: kgomap:body
+                        -   class: KGOImageController
+                            requiresData: true
+                            fields:
+                                url:
+                                -   kgoResolveType: method
+                                    kgoResolveValue: getPlaceInfo
+                                    kgoResolveProcessors:
+                                    -   class: KGOArrayValueDataProcessor
+                                        options:
+                                            key: PhotoURL
+                                    -   class: KGOURLDataProcessor
+                            options:
+                                style: map_detail_photo
+                    -   name: nearby
+                        fields:
+                            title: Nearby
+                        contents:
+                        -   class: KGOListController
+                            uiClass: KGOUIListMap
+                            requiresData: true
+                            options:
+                                urlCommand: map
+                                showTopBorder: false
+                                urlArgs:
+                                    filter: ~
+                            regions:
+                            -   name: items
+                                contents:
+                                -   class: KGOListItemController
+                                    source:
+                                    -   kgoResolveType: value
+                                        kgoResolveValue: kgomap:nearby
+                                    fields:
+                                        subtitle:
+                                        -   kgoResolveType: method
+                                            kgoResolveValue: getDistanceText
+...

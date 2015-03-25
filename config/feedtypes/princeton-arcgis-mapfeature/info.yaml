@@ -6,7 +6,7 @@ servicetype: modo-arcgis
 args:
     dataModel: KGOMapDataModel
     dataRetriever: PrincetonArcGISDataRetriever
-    itemtype: placemark
+    itemtype: princeton-map-placemark
 config:
 -   class: KGOFormElementControllerText
     options:
