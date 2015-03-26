@@ -36,12 +36,34 @@ common:
                                 -   kgoResolveType: method
                                     kgoResolveValue: getPlaceInfo
                                     kgoResolveProcessors:
-                                    -   class: KGOArrayValueDataProcessor
+                                    -   class: KGOSafeArrayValueDataProcessor
                                         options:
                                             key: PhotoURL
                                     -   class: KGOURLDataProcessor
                             options:
                                 style: map_detail_photo
+                        -   class: KGOListController
+                            requiresData: true
+                            options:
+                                grouped: true
+                                inset: true
+                            regions:
+                            -   name: items
+                                contents:
+                                -   class: KGOListItemController
+                                    source:
+                                    -   kgoResolveType: inherit
+                                        kgoResolveProcessors:
+                                        -   class: PrincetonInhabitantsDataProcessor
+                                    fields:
+                                        url:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: KGOAlternateDataProcessor
+                                                options:
+                                                    args:
+                                                    -   'inhabitant:webpage'
+                                                    -   'inhabitant:phone'
                     -   name: nearby
                         fields:
                             title: Nearby
@@ -65,4 +87,35 @@ common:
                                         subtitle:
                                         -   kgoResolveType: method
                                             kgoResolveValue: getDistanceText
+                    -   name: directions
+                        fields:
+                            title: Directions
+                        contents:
+                        -   class: KGOListController
+                            options:
+                                grouped: true
+                                inset: true
+                            fields:
+                                noItemsMessage: "No directions available for this location"
+                            regions:
+                            -   name: items
+                                contents:
+                                -   class: KGOListItemController
+                                    requiresData: true
+                                    fields:
+                                        title: "Get directions from Google"
+                                        url:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: PrincetonMapGoogleDirectionsURLDataProcessor
+                                            -   class: KGOURLDataProcessor
+                                -   class: KGOListItemController
+                                    requiresData: true
+                                    fields:
+                                        title: "View in Google Maps"
+                                        url:
+                                        -   kgoResolveType: inherit
+                                            kgoResolveProcessors:
+                                            -   class: PrincetonMapGoogleMapsURLDataProcessor
+                                            -   class: KGOURLDataProcessor
 ...
