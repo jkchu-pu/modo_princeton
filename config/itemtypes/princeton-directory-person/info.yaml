@@ -17,6 +17,8 @@ common:
                 title:
                     kgoResolveType: value
                     kgoResolveValue: ldap:firstlast
+                    # kgoResolveProcessors:
+                    # -   class: KGODefaultDataProcessor
                 subtitle:
                     kgoResolveType: value
                     kgoResolveValue: ldap:title
@@ -62,24 +64,33 @@ common:
                                 label: phone
                             options:
                                 accessory: phone
-                        -   source:
-                                kgoResolveType: value
-                                kgoResolveValue: ldap:homephone
-                                kgoResolveProcessors:
-                                -   class: KGOPhoneNumbersToLinksDataProcessor
+                -   class: KGOListController
+                    requiresData: true
+                    options:
+                        grouped: true
+                        inset: true
+                    regions:
+                    -   name: items
+                        contents:
+                        -   class: KGOListItemController
                             fields:
-                                label: home
+                                label: address
+                                title:
+                                -   kgoResolveType: value
+                                    kgoResolveValue: ldap:street
+                                url:
+                                -   kgoResolveType: value
+                                    kgoResolveValue: ldap:street
+                                    kgoResolveProcessors:
+                                    -   class: PrincetonOfficeMapNameDataProcessor
+                                    -   class: KGOModuleSearchURLDataProcessor
+                                        options:
+                                            module: map
+                                            command: ''
+                                            args:
+                                                _recenter: 'true'
                             options:
-                                accessory: phone
-                        -   source:
-                                kgoResolveType: value
-                                kgoResolveValue: ldap:facsimiletelephonenumber
-                                kgoResolveProcessors:
-                                -   class: KGOPhoneNumbersToLinksDataProcessor
-                            fields:
-                                label: fax
-                            options:
-                                accessory: phone
+                                accessory: map
                 -   class: KGOListController
                     requiresData: true
                     options:
@@ -89,7 +100,7 @@ common:
                     -   name: items
                         contents:
                         -   fields:
-                                label: unit
+                                label: department
                                 title:
                                     kgoResolveType: value
                                     kgoResolveValue: ldap:ou
