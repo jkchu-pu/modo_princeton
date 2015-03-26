@@ -171,9 +171,25 @@ common:
                                                     -   "modoclass:classnumber"
                                 -   class: KGOListItemController
                                     requiresData: true
+                                    options:
+                                        accessory: map
                                     fields:
                                         title:
                                         -   kgoResolveType: inherit
                                             kgoResolveProcessors:
                                             -   class: PrincetonSectionScheduleDataProcessor
+                                        url:
+                                        -   kgoResolveType: value
+                                            kgoResolveValue: modoclass:schedules
+                                            kgoResolveProcessors:
+                                            -   class: KGOArrayFirstItemDataProcessor
+                                        -   kgoResolveType: value
+                                            kgoResolveValue: modoschedule:building
+                                            kgoResolveProcessors:
+                                            -   class: KGOModuleSearchURLDataProcessor
+                                                options:
+                                                    module: map
+                                                    command: ''
+                                                    args:
+                                                        _recenter: 'true'
 ...

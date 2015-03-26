@@ -1,7 +1,7 @@
 <?php
 
 
-class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements KGOSearchDataRetriever, ModoCatalogDataRetriever {
+class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements KGOSearchDataRetriever, ModoCatalogSearchDataRetriever, ModoCatalogDataRetriever {
 
     protected $areasParser;
     protected $areasURL;
@@ -18,10 +18,14 @@ class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements KGOSe
     // }
 
     public function searchCourses($searchTerms, $options = array(), &$response=null) {
+
         if (strlen($searchTerms) < self::MINIMUM_SEARCH_LENGTH) {
             return array();
         }
         $items = array();
+
+        $urlArgs = Kurogo::sharedInstance()->getCurrentArgs();
+        $options['area'] = kgo_array_val($urlArgs, 'area', null);
 
         if (isset($options['area'])) {
             if (!$area = $this->getCatalogArea($options['area'], $options)) {
@@ -75,7 +79,6 @@ class PrincetonCatalogDataRetriever extends KGOURLDataRetriever implements KGOSe
     }
 
     public function getCatalogArea($area, $options = array()) {
-        kgo_debug('', true, true);
 
         $areas = $this->getCatalogAreas($options);
         foreach ($areas as $areaObj) {
