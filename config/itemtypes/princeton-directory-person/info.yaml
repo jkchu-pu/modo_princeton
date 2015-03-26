@@ -17,8 +17,6 @@ common:
                 title:
                     kgoResolveType: value
                     kgoResolveValue: ldap:firstlast
-                    # kgoResolveProcessors:
-                    # -   class: KGODefaultDataProcessor
                 subtitle:
                     kgoResolveType: value
                     kgoResolveValue: ldap:title

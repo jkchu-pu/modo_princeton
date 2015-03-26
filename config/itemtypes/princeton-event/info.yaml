@@ -1,21 +1,11 @@
 ---
 common:
-    title: Princeton College Event
+    title: Princeton Event
     controllerConfigs:
-        KGOUIListItemCalendar: info.objdefs.listitem
         KGOUIDetail: info.objdefs.detail
     dataObjects:
     -   KGOCalendarEvent
     objdefs:
-        listitem:
-            options:
-                thumbnailStyle: list_thumbnail_photo
-            fields:
-                thumbnail:
-                -   kgoResolveType: inherit
-                    kgoResolveProcessors:
-                    -   class: PrincetonAthleticsCollegeLogoDataProcessor
-                    -   class: KGOImageDataProcessor
         detail:
             regions:
             -   name: content
