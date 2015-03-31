@@ -73,9 +73,9 @@ common:
     highlight_background_color: '#222222'    # Highlight color for pressed state of list items. Does not apply to Android native.
     highlight_text_color: '#ffffff'          # Text color for highlighted/pressed state of list items. Does not apply to Android native.
     list_accessory_color: '#FA7F00'          # Color of accessory icons in list views.
-
+    
     # KGOUIPortlets
-    portlet_header_title_color: '#CCCCCC'    # Text color for the title (generally module or feed name) in the portlet header bar
+    portlet_header_title_color: '#fa7f00'    # Text color for the title (generally module or feed name) in the portlet header bar
     portlet_header_font_size: '0.75rem'      # Font size for title in the portlet header bar
     portlet_header_background_color: '#232528'  # Background color for the portlet header bar. Must be RGB hex value. Used as fallback for older browsers that don't understand RGBA color.
     portlet_header_background_color_rgba: 'rgba(35,37,40,0.8)' # Background color for the portlet header bar. Must be rgba value. Used on modern browers and native apps.
