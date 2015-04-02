@@ -11,8 +11,12 @@
 
 class PrincetonArcGISDataParser extends ModoArcGISDataParser
 {
+
     protected $geometryRetriever;
     protected $folderRetriever;
+
+    protected $geometryFolders;
+    protected $currentGeometryFolder;
 
     public function init($args) {
         parent::init($args);
@@ -36,6 +40,9 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
 
         $this->geometryRetriever = $geometryRetriever;
         $this->folderRetriever = $folderRetriever;
+
+        $this->geometryFolders = array();
+        $this->geometryPlacemarks = array();
         // \Princeton //
     }
 
@@ -79,6 +86,13 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
         }
     }
 
+    protected function getProjection() {
+        if ($folder = $this->currentGeometryFolder) {
+            $projection = $folder->getDisplayRule('projection');
+        }
+        return (isset($projection) && $projection) ? $projection : $this->projection;
+    }
+
     protected function parseFolder($data) {
         if (!isset($data['id'])) {
             return null;
@@ -86,8 +100,10 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
 
         // Princeton //
         // Fetch additional folder info from ArcGIS geometry server
-        $folderData = $this->folderRetriever->getFolderData($response);
-        $data = array_merge($folderData, $data);
+        //$folderData = $this->folderRetriever->getFolderData($response);
+        //kgo_debug($folderData, true, true);
+        //$data = array_merge($folderData, $data);
+        //$data = array_merge($data, $folderData);
         // \Princeton //
 
         $id = $data['id'];
@@ -258,8 +274,96 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
                 $this->folderErrors[$id][self::ERROR_NO_GEOMETRY] = true;
             }
         }
-
+        //kgo_debug($folder, true, true);
         return $folder;
+    }
+
+    protected static function hexColorFromArray($rgba, $ignoreAlpha=false, &$color=null, &$alpha=null) {
+        $color = '#'.str_pad(dechex($rgba[0]), 2, '0', STR_PAD_LEFT)
+            . str_pad(dechex($rgba[1]), 2, '0', STR_PAD_LEFT)
+            . str_pad(dechex($rgba[2]), 2, '0', STR_PAD_LEFT);
+
+        $alpha = $ignoreAlpha ? 1 : $rgba[3] / 255;
+
+        return array($color, $alpha);
+    }
+
+    protected function parseMapSymbol($symbolJSON, $ignoreAlpha=false) {
+        $style = KGOMapThemableStyle::factory();
+        switch ($symbolJSON['type']) {
+            case 'esriSMS': // simple marker symbol
+                $styleConfig = array(
+                    'width' => $symbolJSON['size'],
+                    'height' => $symbolJSON['size'],
+                    'shape' => $symbolJSON['style'],
+                    'angle' => kgo_array_val($symbolJSON, 'angle', 0),
+                );
+
+                if (isset($symbolJSON['color']) && $symbolJSON['color']) {
+                    self::hexColorFromArray(
+                        $symbolJSON['color'], $ignoreAlpha,
+                        $styleConfig['color'], $styleConfig['alpha']
+                    );
+                }
+                $style->setAttribute(KGOMapThemableStyle::POINT_STYLE, $styleConfig);
+
+                break;
+
+            case 'esriPMS':
+                $iconLayerId = 1;
+                if ($this->currentGeometryFolder) {
+                    $iconLayerId = $this->currentGeometryFolder->getId();
+                }
+
+                $iconURL = $this->getArg('geometryURL') . '/'. $iconLayerId . '/images/' . $symbolJSON['url'];
+
+                $styleConfig = array(
+                    'icon' => KGOURL::createForString($iconURL),
+                    'width' => $symbolJSON['width'],
+                    'height' => $symbolJSON['height'],
+                    'angle' => kgo_array_val($symbolJSON, 'angle', 0),
+                );
+                $style->setAttribute(KGOMapThemableStyle::POINT_STYLE, $styleConfig);
+
+                break;
+
+            case 'esriSLS': // simple line symbol
+                $styleConfig = array();
+                if (isset($symbolJSON['width'])) {
+                    $styleConfig['width'] = $symbolJSON['width'];
+                }
+                if (isset($symbolJSON['color']) && $symbolJSON['color']) {
+                    list($color, $alpha) = self::hexColorFromArray($symbolJSON['color'], $ignoreAlpha);
+                    $styleConfig['color'] = $color;
+                    $styleConfig['alpha'] = $alpha;
+                }
+                $style->setAttribute(KGOMapThemableStyle::LINE_STYLE, $styleConfig);
+                break;
+
+            case 'esriSFS': // simple fill symbol
+                $styleConfig = array();
+                if (isset($symbolJSON['color']) && $symbolJSON['color']) {
+                    self::hexColorFromArray(
+                        $symbolJSON['color'], $ignoreAlpha,
+                        $styleConfig['color'], $styleConfig['alpha']
+                    );
+                }
+                if (isset($symbolJSON['outline']) && $symbolJSON['outline']) {
+                    $styleConfig['stroke_width'] = kgo_array_val($symbolJSON['outline'], 'stroke_width', 0);
+                    if (isset($symbolJSON['outline']['color']) && $symbolJSON['color']) {
+                        self::hexColorFromArray(
+                            $symbolJSON['color'], $ignoreAlpha,
+                            $styleConfig['stroke_color'], $styleConfig['stroke_alpha']
+                        );
+                    }
+                } else {
+                    $styleConfig['stroke_width'] = 0;
+                }
+                $style->setAttribute(KGOMapThemableStyle::FILL_STYLE, $styleConfig);
+                break;
+        }
+
+        return $style;
     }
 
     protected function parseFeatures($data) {
@@ -295,7 +399,27 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
             return $placemarks;
         }
 
+        $geometryParentIds = $this->getArg('geometryParentId');
+        foreach ($geometryParentIds as $geometryParentId) {
+            if (!isset($this->geometryFolders[$geometryParentId])) {
+                $this->folderRetriever->setParentId($geometryParentId);
+                $folderData = $this->folderRetriever->getFolderData($response);
+                $folder = $this->parseFolder($folderData);
+                $this->geometryFolders[$geometryParentId] = $folder;
+            }
+        }
+
         foreach ($data['features'] as $featureInfo) {
+
+            $targetParentId = null;
+            $geometryFolder = null;
+            $locationId = $featureInfo['attributes']['LOCATIONID'];
+            $geomData = $this->geometryRetriever->getGeometry($locationId, $targetParentId, $response);
+            if ($geomData) {
+                //kgo_debug($this->geometryFolders, true, true);
+                $geometryFolder = $this->geometryFolders[$targetParentId];
+                $this->currentGeometryFolder = $geometryFolder;
+            }
 
             $placemark = KGODataObject::factory($this->getOption(KGOMapDataModel::OPTION_PLACEMARK_CLASS), $this->initArgs);
             if ($this->getOption(KGOItemsDataModel::SEARCH_KEYWORD_ARG)) {
@@ -345,13 +469,9 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
             }
 
             // Princeton //
-            $locationId = $featureInfo['attributes']['LOCATIONID'];
+
 
             if (!isset($featureInfo['geometry']) && isset($locationId)) {
-                // Try to get geometry from other princeton service
-
-                $targetParentId = null;
-                $geomData = $this->geometryRetriever->getGeometry($locationId, $targetParentId, $response);
                 $featureInfo['geometry'] = $geomData;
 
                 if (!is_null($targetParentId)) {
@@ -397,9 +517,10 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
                 // \Princeton //
                 $placemark->setGeometry($this->projectGeometry($geometry));
 
-                $placemark->setAttribute(KGOMapPlacemark::STYLEID_ATTRIBUTE, $this->styleForPlacemark($parentFolder, $placemark));
+                // TODO: call with geometry folder
+                $placemark->setAttribute(KGOMapPlacemark::STYLEID_ATTRIBUTE, $this->styleForPlacemark($geometryFolder, $placemark));
             }
-            if(is_object($placemark->getGeometry())) {
+            if (is_object($placemark->getGeometry())) {
                 $placemarks[$placemark->getId()] = $placemark;
             }
         }
@@ -407,7 +528,7 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
         // if ($this->getOption('returnGeometry')) {
         //     kgo_debug($placemarks, true, true);
         // }
-
+        //kgo_debug($placemarks, true, true);
         return $placemarks;
     }
 }

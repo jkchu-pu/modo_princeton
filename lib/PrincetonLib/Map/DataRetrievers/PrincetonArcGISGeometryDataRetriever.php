@@ -27,13 +27,14 @@ class PrincetonArcGISGeometryDataRetriever extends KGOURLDataRetriever
         foreach ($parentId as $targetParentId) {
             $this->clearInternalCache();
 
-            $this->setBaseURL($baseURL.'/'.$targetParentId.'/query?where=1%3D1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&returnIdsOnly=false&returnCountOnly=false&returnZ=false&returnM=false&returnDistinctValues=false&f=pjson');
-
-            $data = $this->getData($response);
-
             if (!isset($this->geomPlacemarks[$targetParentId])) {
+                $this->setBaseURL($baseURL.'/'.$targetParentId.'/query?where=1%3D1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&returnIdsOnly=false&returnCountOnly=false&returnZ=false&returnM=false&returnDistinctValues=false&f=pjson');
+
+                $data = $this->getData($response);
+
                 $this->geomPlacemarks[$targetParentId] = $data['features'];
             }
+
             $placemarks = $this->geomPlacemarks[$targetParentId];
 
             foreach ($placemarks as &$placemark) {

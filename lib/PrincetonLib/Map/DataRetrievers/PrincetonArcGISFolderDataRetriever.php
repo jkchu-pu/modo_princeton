@@ -24,6 +24,11 @@ class PrincetonArcGISFolderDataRetriever extends KGOURLDataRetriever
         }
     }
 
+    public function setParentId($parentId) {
+        $this->clearInternalCache();
+        $this->parentId = $parentId;
+    }
+
     public function getFolderData(&$response) {
         $this->setBaseURL($this->getArg('baseURL').'/'.$this->parentId.'?f=pjson');
 
