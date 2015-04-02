@@ -30,12 +30,12 @@ config:
         description: ID of parent layer
     controller:
         config: parentId
--   class: KGOFormElementControllerText
-    fields:
-        label: Geometry Parent ID
-        description: 'ID of parent layer, for geometry'
-    controller:
-        config: geometryParentId
+# -   class: KGOFormElementControllerText
+#     fields:
+#         label: Geometry Parent ID
+#         description: 'ID of parent layer, for geometry'
+#     controller:
+#         config: geometryParentId
 -   class: KGOFormElementControllerText
     fields:
         label: Nearby Threshold
