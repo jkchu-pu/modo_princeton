@@ -22,7 +22,7 @@ class PrincetonArcGISDataRetriever extends ModoArcGISDataRetriever
             $this->setParentId($id);
             $this->setReturnType(KGOMapDataRetriever::RETURN_TYPE_PLACEMARKS);
             $currentResult = $this->getData($response);
-            $results = array_merge($results, array_values($currentResult['placemarks']));
+            $results = $results + array_values($currentResult['placemarks']);
         }
         $this->allFoldersParsed = true;
         $searchTerms = strtolower($searchTerms);
@@ -32,6 +32,47 @@ class PrincetonArcGISDataRetriever extends ModoArcGISDataRetriever
             }
         }
         $results = array_merge($results);
+        return $results;
+    }
+
+    public function searchWithin(KGOMapPoint $center, $radius, &$response=null) {
+        $this->getFolders();
+
+        $filters = array(
+            KGOMapDataModel::SEARCH_NEARBY_ARG => array(
+                'center' => $center,
+                'radius' => $radius,
+                ),
+            );
+
+        $optionOverrides = array(
+            'returnGeometry' => true,
+            'nearbyOptions' => $filters[KGOMapDataModel::SEARCH_NEARBY_ARG], // get filtered results from server within rectangular envelope
+            );
+
+        $results = array();
+        foreach ($this->folders as $id => $folder) {
+            $this->getFolder($id);
+            $this->setParentId($id);
+            $this->setReturnType(KGOMapDataRetriever::RETURN_TYPE_PLACEMARKS);
+
+            $this->temporaryOverrideOptions($optionOverrides);
+            $currentResult = $this->getData($response);
+            $this->restoreOriginalOptions();
+
+            $results = $results + array_values($currentResult['placemarks']);
+        }
+        $this->allFoldersParsed = true;
+
+        // filter using actual distance
+        $results = array_values(
+            array_filter($results, function($item) use ($filters) {
+                return $item->filterItem($filters);
+            })
+        );
+
+        usort($results, array('KGOMapPlacemark', 'compareDistances'));
+        //kgo_debug($results, true, true);
         return $results;
     }
 }

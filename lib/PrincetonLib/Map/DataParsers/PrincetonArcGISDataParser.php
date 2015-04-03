@@ -529,6 +529,9 @@ class PrincetonArcGISDataParser extends ModoArcGISDataParser
         //     kgo_debug($placemarks, true, true);
         // }
         //kgo_debug($placemarks, true, true);
+        if ($this->getOption('nearbyOptions')) {
+            //kgo_debug($placemarks, true, true);
+        }
         return $placemarks;
     }
 }
