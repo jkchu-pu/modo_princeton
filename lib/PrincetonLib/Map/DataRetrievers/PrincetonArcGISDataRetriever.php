@@ -9,7 +9,7 @@
  *
  */
 
-class PrincetonArcGISDataRetriever extends ModoArcGISDataRetriever
+class PrincetonArcGISDataRetriever extends ModoArcGISDataRetriever implements KGOMapSpatialSearchInterface
 {
     protected static $defaultParserClass = 'PrincetonArcGISDataParser';
 
